@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     goal.order = 20;
     ac.sendGoal(goal);
 
-    bool finished_before_timeout = ac.waitForResult(ros::Duration(5.0));
+    bool finished_before_timeout = ac.waitForResult(ros::Duration(30.0));
 
     if (finished_before_timeout)
     {
