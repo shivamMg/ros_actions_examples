@@ -1,3 +1,5 @@
+#include <string>
+
 #include <ros/ros.h>
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/client/terminal_state.h>
@@ -5,9 +7,14 @@
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "test_fibonacci");
+    ros::init(argc, argv, "test_fibonacci", ros::init_options::AnonymousName);
 
-    actionlib::SimpleActionClient<actionlib_tutorials::FibonacciAction> ac("fibonacci", true);
+    std::string name = "fibonacci";
+    if (argc >= 2)  // add namespace prefix
+        name = std::string(argv[1]) + "/" + name;
+    const std::string full_name = name;
+
+    actionlib::SimpleActionClient<actionlib_tutorials::FibonacciAction> ac(full_name, true);
 
     ROS_INFO("Waiting for action server to start.");
     ac.waitForServer(ros::Duration(30));

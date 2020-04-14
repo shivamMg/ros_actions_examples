@@ -1,3 +1,5 @@
+#include <string>
+
 #include <ros/ros.h>
 #include <actionlib/server/simple_action_server.h>
 #include <actionlib_tutorials/FibonacciAction.h>
@@ -60,9 +62,14 @@ public:
 
 int main(int argc, char** argv)
 {
-    ros::init(argc, argv, "fibonacci");
+    ros::init(argc, argv, "fibonacci", ros::init_options::AnonymousName);
 
-    FibonacciAction fibonacci("fibonacci");
+    std::string name = "fibonacci";
+    if (argc >= 2)  // add namespace prefix
+        name = std::string(argv[1]) + "/" + name;
+    const std::string full_name = name;
+
+    FibonacciAction fibonacci(full_name);
     ros::spin();
 
     return 0;
